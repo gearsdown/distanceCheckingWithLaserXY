@@ -1,4 +1,5 @@
-#CREATEDDATE 20240820
+# CREATEDDATE
+  20240820
 
-#DESCRIPTION
+# DESCRIPTION
 this algorithm using javascript to solve movement problem between given laser line
