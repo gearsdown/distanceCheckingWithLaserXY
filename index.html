@@ -1,0 +1,116 @@
+<script>
+
+function longestPath(width, height, current_x, current_y, laser_location)
+{
+    var run = 1;
+    var limiter = 0;
+    var list_result_run = [];
+    var nearest_right = width, nearest_left = 0, nearest_top = 0, nearest_bottom = height;
+
+    banned_coordinate_x = [];
+    banned_coordinate_y = [];
+
+    for(let i = 0; i < laser_location.length; i++)
+    {
+        banned_coordinate_x.push(laser_location[i][0]);
+        banned_coordinate_y.push(laser_location[i][1]);
+    }
+    banned_coordinate_x.sort();
+    banned_coordinate_y.sort();
+
+    // define nearest right
+    for(i = 0 ; i < banned_coordinate_x.length; i++)
+    {
+        if(current_x <= banned_coordinate_x[i]){
+            nearest_right = banned_coordinate_x[i];
+            break;
+        }
+    }
+
+    // define nearest left
+    for(i = 0 ; i < banned_coordinate_x.length; i++)
+    {
+        if(nearest_left < banned_coordinate_x[i] && banned_coordinate_x[i] < current_x){
+            nearest_left = banned_coordinate_x[i];
+        }
+    }
+    // define nearest bottom
+    for(i = 0 ; i < banned_coordinate_y.length; i++)
+    {
+        if(current_y < banned_coordinate_y[i] ){
+            nearest_bottom = banned_coordinate_y[i];
+            break;
+        }
+    }
+    // define nearest top
+    for(i = 0 ; i < banned_coordinate_y.length; i++)
+    {
+        if(nearest_top < banned_coordinate_y[i] && banned_coordinate_y[i] < current_y){
+            nearest_top = banned_coordinate_y[i];
+        }
+    }
+
+    // run right
+    limiter = current_x;
+    while(run == 1 && limiter < width)
+    {
+        if(limiter + 1 < nearest_right)
+            limiter = limiter + 1;
+        else
+            run = 0;
+    }
+    list_result_run.push(limiter - current_x);
+    
+    // run left
+    limiter = current_x;
+    run = 1;
+    while(run == 1 && limiter > nearest_left)
+    {
+        if(limiter - 1 > nearest_left)
+            limiter = limiter - 1;
+        else
+            run = 0;
+    }
+    list_result_run.push(current_x - limiter);
+
+    // run top
+    limiter = current_y;
+    run = 1;
+    while(run == 1 && limiter > nearest_top)
+    {
+        if(limiter - 1 > nearest_top)
+            limiter = limiter - 1;
+        else
+            run = 0;
+    }
+    list_result_run.push(current_y - limiter);
+
+    // run bottom
+    limiter = current_y;
+    run = 1;
+    while(run == 1 && limiter < nearest_bottom)
+    {
+        if(limiter + 1 < nearest_bottom)
+            limiter = limiter + 1;
+        else
+            run = 0;
+    }
+    list_result_run.push(limiter - current_y);
+}
+
+longestPath(10,10, 7,5, [[8,1],[6,7],[1,1]])
+
+// example
+// 0	1	2	3	4	5	6	7	8	9	10
+// 1	X	X	X	X	X	X	X	X	X	X
+// 2	X					X		X		
+// 3	X					X		X		
+// 4	X					X		X		
+// 5	X					X	M	X		
+// 6	X					X		X		
+// 7	X	X	X	X	X	X	X	X	X	X
+// 8	X					X		X		
+// 9	X					X		X		
+// 10	X					X		X		
+
+</script>
